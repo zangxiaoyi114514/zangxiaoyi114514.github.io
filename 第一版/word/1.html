@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>评论区</title>
+  <style>
+    /* 可以添加一些自定义的CSS样式来美化评论区 */
+    .comment {
+      margin-bottom: 15px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>用户评论</h1>
+
+  <form id="commentForm">
+    <div>
+      <label for="name">姓名</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    <div>
+      <label for="comment">评论</label>
+      <textarea id="comment" name="comment" rows="4" required></textarea>
+    </div>
+    <div>
+      <button type="submit">提交评论</button>
+    </div>
+  </form>
+
+  <div id="comments">
+    <!-- 评论将通过JavaScript动态填充到这里 -->
+  </div>
+
+  <script>
+    // 在页面加载完成后，尝试从localStorage中获取保存的评论数据
+    document.addEventListener('DOMContentLoaded', function() {
+      var comments = JSON.parse(localStorage.getItem('comments')) || [];
+      var commentsContainer = document.getElementById('comments');
+
+      // 动态填充已保存的评论数据到评论区
+      comments.forEach(function(commentData) {
+        var commentElement = createCommentElement(commentData.name, commentData.comment);
+        commentsContainer.appendChild(commentElement);
+      });
+
+      // 监听评论表单的提交事件
+      document.getElementById('commentForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // 阻止默认的表单提交行为
+
+        var name = document.getElementById('name').value;
+        var comment = document.getElementById('comment').value;
+
+        // 创建新的评论元素
+        var newComment = createCommentElement(name, comment);
+
+        // 将新评论追加到评论区
+        commentsContainer.appendChild(newComment);
+
+        // 保存评论数据到localStorage
+        comments.push({ name: name, comment: comment });
+        localStorage.setItem('comments', JSON.stringify(comments));
+
+        // 重置表单
+        document.getElementById('commentForm').reset();
+      });
+
+      // 创建评论元素的辅助函数
+      function createCommentElement(name, comment) {
+        var newComment = document.createElement('div');
+        newComment.classList.add('comment');
+        newComment.innerHTML = '<h3>' + name + '</h3><p>' + comment + '</p>';
+        return newComment;
+      }
+    });
+  </script>
+</body>
+</html>
