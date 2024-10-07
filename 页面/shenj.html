@@ -1,23 +1,14 @@
-
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
-<html><head>
+<html>
+<head>
 <meta charset="UTF-8">
 <title>114514</title>
-<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
-</script>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 <audio controls>
     <source src="/插件/Never Gonna Give You Up.ogg" type="audio/ogg">
     <source src="/插件/Never Gonna Give You Up.mp3" type="audio/mpeg">
-  您的浏览器不支持 audio 元素。
-  </audio>
+    您的浏览器不支持 audio 元素。
+</audio>
 <style>
 #board {
   background-color: black;            
@@ -26,10 +17,6 @@
   font-size: 25px;           
   padding: 10px;            
   display: inline-block;            
-  /*宽度太长,(想行内元素, 块级元素)                
-  1.给定宽度                
-  2. 改为行内块 display : inline-block            
-  */
 }
 
 #board.active {
@@ -39,20 +26,19 @@
 <script>
 $(function () {
   function toggle() {
-    let $board = $('#board')
-    if ($board.hasClass('active')) {
-      $board.removeClass('active')
-    } else {
-      $board.addClass('active')
-    }
+    $('#board').toggleClass('active');
   }
 
-  setInterval(toggle, 200)
+  // 错误处理机制，确保 setInterval 能够正常执行
+  try {
+    setInterval(toggle, 200);
+  } catch (error) {
+    console.error("定时器设置错误: ", error);
+  }
 })
 </script>
 </head>
 <body>
-<div id="board">神&nbsp;&nbsp;&nbsp;&nbsp;    经</div>
+<div id="board">神&nbsp;&nbsp;&nbsp;&nbsp;经</div>
 </body>
-
 </html>
